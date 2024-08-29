@@ -1,0 +1,275 @@
+{% extends "partials/dashboard-base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+
+<!-- Add Card Popup start -->
+<div class="add-card">
+    <div class="container-fruid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="modal fade" id="addcardMod" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-between">
+                                <h6>Add Fund</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <form method="POST" action="{% url "core:fund_credit_card" card.card_id %}">
+                                {% csrf_token %}
+                                <div class="row justify-content-center">                                      
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Card Holder </label>
+                                            <input type="text" value="{{ card.name }}" readonly>                                       
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Card Number</label>
+                                            <input type="text" value="{{card.number}}" readonly>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Available Balance in Paylio Account:</label>
+                                            <input type="text" value="{{account.account_balance}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Enter Amount:</label>
+                                            <input type="number" name="amount" placeholder="Enter number">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="btn-border w-100">
+                                            <button type="submit" class="cmn-btn w-100">Add Amount</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Card Popup start -->
+
+
+<div class="add-card">
+    <div class="container-fruid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="modal fade" id="withdraw_fund" aria-hidden="true">                                                                                      
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-between">
+                                <h6>withdraw from card</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <form method="POST" action="{% url "core:withdraw_fund" card.card_id %}">
+                                {% csrf_token %}
+                                <div class="row justify-content-center">                                      
+                    
+
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Card's available balance::</label>
+                                            <input type="text" value="₹{{card.amount|intcomma}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Enter Amount:</label>
+                                            <input type="number" name="amount" placeholder="Enter number">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="btn-border w-100">
+                                            <button type="submit" class="cmn-btn w-100">Withdraw</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Card Popup start -->
+
+
+<!-- Add Card Popup start -->
+<div class="add-card">
+    <div class="container-fruid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="modal fade" id="delete_card" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-between">
+                                <h6>Add Fund</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <form method="POST" action="{% url "core:delete_card" card.card_id %}">
+                                {% csrf_token %}
+                                <div class="row justify-content-center">                                      
+                    
+
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Card Number</label>
+                                            <input type="text" value="{{card.number}}" readonly>
+                                        </div>
+                                    </div>
+
+
+                                    
+
+                                    
+                                    <div class="col-md-12">
+                                        <div class="single-input">
+                                            <label for="cardNumber">Type "delete" to delete your credit card:</label>
+                                            <input type="text" name="delete" placeholder="Enter number">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">                                       
+                                        <div class="btn-border w-100">
+                                            <button type="submit" class="cmn-btn w-100" style="background-color: red; color: white;">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Card Popup start -->
+
+{% comment %} ########################################### {% endcomment %}
+
+<section class="dashboard-section body-collapse">
+        <div class="overlay pt-120">
+            <div class="container-fruid">
+                <div class="row">
+                    <div class="col-xl-11 col-lg-11">
+                        <div class="section-content">
+
+                            <div class="transactions-popup">
+                                <div class="container-fruid">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header justify-content-between">
+                                                            <h5>Credit Card Details </h5>
+                                                            <a href=""><i class="material-symbols-outlined">arrow_back</i></a>
+                                                        </div>
+                                                        <div class="main-content">
+                                                            <div class="row">
+                                                                <div class="col-sm-5 text-center">
+                                                                    <div class="icon-area">
+                                                                    </div>
+                                                                    <div class="text-area">
+                                                                        
+                                                                        <h5><b>100 USD</b></h5>
+                                                                        <p>20th July 2023</p>
+                                                                        <p class="text-success">Completed</p>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    <div class="right-area">
+                                                                        <h6>Credit Card Details</h6>
+                                                                        <ul class="payment-details">
+                                                                            <li>
+                                                                                <span>current Amount</span>
+                                                                                <span>{{card.amount}}</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <span>Name of Holder</span>
+                                                                                <span>{{card.name}}</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <span>Card Type</span>
+                                                                                <span>{{card.card_type}}</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <span>Card Number</span>
+                                                                                <span>{{card.number}}</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <span>Expiry Month&year</span>
+                                                                                <span>{{card.month}}/{{card.year}}</span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <span>CVV</span>
+                                                                                <span>{{card.cvv}}</span>
+                                                                            </li>
+
+                                                                               <div class="row" style="gap: 10px;">
+                                                                                    <div class="col-10">
+                                                                                        <button type="button" class="reg btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addcardMod">
+                                                                                            Fund Card
+                                                                                           </button>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div class="col-10">
+                                                                                        <button type="button" class="reg btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#withdraw_fund">
+                                                                                            Withdraw
+                                                                                           </button>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div class="col-10">
+                                                                                        <button type="button" class="reg btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#delete_card">
+                                                                                            Delete
+                                                                                           </button>
+                                                                                    </div>
+                                                                               </div>
+                                                                            
+                                                                            
+                                                                        </ul>
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock content %}
